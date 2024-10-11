@@ -14,4 +14,8 @@ public class Participant {
     private long annualSalary;
     private long existingDebt;
     private long loanAmount;
+    private String loanPurpose;
+    private String employmentStatus;
+    private int yearsAtCurrentJob;
+    private long accountBalance;
 }

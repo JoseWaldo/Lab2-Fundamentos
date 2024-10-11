@@ -50,3 +50,109 @@ rule "Checking Credit Score greater than 750"
         rate.setLoanStatus("Approved");
         rate.setLoanRate(5.25);
     end
+//--------------------------------------------------------------
+
+rule "Checking Employment Status"
+    when
+        Participant(employmentStatus == "Unemployed")
+    then
+        rate.setLoanStatus("Rejected - Unemployed");
+        rate.setLoanRate(999);
+end
+
+rule "Checking Years at Current Job"
+    when
+        Participant(yearsAtCurrentJob < 0.5, employmentStatus != "Unemployed")
+    then
+        rate.setLoanStatus("Rejected - Insufficient Job Stability");
+        rate.setLoanRate(999);
+end
+
+rule "Checking Savings Account Balance"
+    when
+        Participant(accountBalance < 1000)
+    then
+        rate.setLoanStatus("Rejected - Low Savings");
+        rate.setLoanRate(999);
+end
+
+rule "Checking Age Restriction"
+    when
+        Participant(age < 18)
+    then
+        rate.setLoanStatus("Rejected - Underage");
+        rate.setLoanRate(999);
+end
+
+rule "Offering Credit Card"
+    when
+        Participant(annualSalary > 60000, yearsAtCurrentJob < 2, employmentStatus == "Employed", creditScore > 650)
+    then
+        rate.setLoanStatus("Approved for Credit Card");
+        rate.setLoanRate(7.0);
+end
+
+rule "Home Loan Approval"
+    when
+        Participant(loanPurpose == "Home", annualSalary > 70000, creditScore > 700, existingDebt >= (loanAmount * 0.4))
+    then
+        rate.setLoanStatus("Approved for Home Loan");
+        rate.setLoanRate(4.5);
+end
+
+rule "Home Loan Rejection"
+    when
+        Participant(loanPurpose == "Home", annualSalary <= 70000)
+    then
+        rate.setLoanStatus("Rejected - Insufficient Salary for Home Loan");
+        rate.setLoanRate(999);
+end
+
+rule "Car Loan Approval"
+    when
+        Participant(age >= 18, loanPurpose == "Car", annualSalary > 50000, creditScore > 650, existingDebt >= (loanAmount * 0.5))
+    then
+        rate.setLoanStatus("Approved for Car Loan");
+        rate.setLoanRate(6.0);
+end
+
+rule "Car Loan Rejection"
+    when
+        Participant(loanPurpose == "Car", creditScore < 650)
+    then
+        rate.setLoanStatus("Rejected - Low Credit Score for Car Loan");
+        rate.setLoanRate(999);
+end
+
+rule "Education Loan Approval"
+    when
+        Participant(age >= 18, loanPurpose == "Education", annualSalary > 40000, creditScore > 600)
+    then
+        rate.setLoanStatus("Approved for Education Loan");
+        rate.setLoanRate(5.5);
+end
+
+rule "Education Loan Rejection"
+    when
+        Participant(loanPurpose == "Education", annualSalary <= 40000)
+    then
+        rate.setLoanStatus("Rejected - Insufficient Salary for Education Loan");
+        rate.setLoanRate(999);
+end
+
+rule "Personal Loan Approval"
+    when
+        Participant(age >= 18, loanPurpose == "Personal", annualSalary > 50000, creditScore > 620, existingDebt >= (loanAmount * 0.6))
+    then
+        rate.setLoanStatus("Approved for Personal Loan");
+        rate.setLoanRate(8.0);
+end
+
+rule "Personal Loan Rejection"
+    when
+        Participant(loanPurpose == "Personal", creditScore < 620)
+    then
+        rate.setLoanStatus("Rejected - Low Credit Score for Personal Loan");
+        rate.setLoanRate(999);
+end
+
