@@ -7,7 +7,9 @@ import org.kie.api.builder.KieModule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.internal.io.ResourceFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class DroolsApplicationConfig {
     private static final KieServices kieServices = KieServices.Factory.get();
     private static final String RULES_CUSTOMER_RULES_ORL = "rules/loan_rate.drl";
